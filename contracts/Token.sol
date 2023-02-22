@@ -43,27 +43,27 @@ contract Token {
      * The `external` modifier makes a function *only* callable from outside
      * the contract.
      */
-    function transfer(address to, uint256 amount) external {
+    function transfer(address from, address to, uint256 amount) external {
         // Check if the transaction sender has enough tokens.
         // If `require`'s first argument evaluates to `false` then the
         // transaction will revert.
-        require(balances[msg.sender] >= amount, "Not enough tokens");
+        require(balances[from] >= amount, "Not enough tokens");
 
         // We can print messages and values using console.log, a feature of
         // Hardhat Network:
         console.log(
             "Transferring from %s to %s %s tokens",
-            msg.sender,
+            from,
             to,
             amount
         );
 
         // Transfer the amount.
-        balances[msg.sender] -= amount;
+        balances[from] -= amount;
         balances[to] += amount;
 
         // Notify off-chain applications of the transfer.
-        emit Transfer(msg.sender, to, amount);
+        emit Transfer(from, to, amount);
     }
 
     /**
